@@ -2,8 +2,8 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#0099cc"
-                tools:context="dev.jriley.splash.SplashActivity">
+                android:id="@+id/content"
+                tools:context=".SignInActivity">
 
 
 </RelativeLayout>
