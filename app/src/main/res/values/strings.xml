@@ -9,11 +9,16 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
-
+    <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
+    <string name="password">Password</string>
+    <string name="email_or_user_name">Email or user name</string>
+    <string name="sign_in">Sign in</string>
     <string name="title_activity_splash">SplashActivity</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="splash_loading">Loading</string>
+    <string name="error_empty_field">This field is required to continue.</string>
+    <string name="failed_login_title">Please try again</string>
+    <string name="failed_login">Sorry, could not log you in with the provided credentials.</string>
+
+
 </resources>

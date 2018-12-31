@@ -16,6 +16,10 @@ class SplashActivityUat {
 
     @Test
     fun oAuthTokenIsValid_StartMainActivity() {
+        TokenRepositoryFactory.tokenRepository = object: TokenRepo {
+            override fun isValid(): Single<Boolean> = Single.just(true)
+        }
+
         activityRule.launchActivity(null)
 
         SplashScreen.assertShowing()
