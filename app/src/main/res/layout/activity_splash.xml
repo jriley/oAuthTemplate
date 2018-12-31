@@ -5,5 +5,14 @@
                 android:id="@+id/content"
                 tools:context=".SignInActivity">
 
+    <TextView android:id="@+id/splashLoading"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_centerInParent="true"
+              android:textSize="26sp"
+              android:textStyle="bold|italic"
+              android:textColor="@color/black_overlay"
+              android:text="@string/splash_loading"/>
+
 
 </RelativeLayout>
