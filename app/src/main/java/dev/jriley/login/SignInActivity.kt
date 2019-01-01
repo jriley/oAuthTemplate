@@ -7,7 +7,7 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
-import dev.jriley.enterRightExitLeft
+import dev.jriley.finishAndExitWithAnimation
 import dev.jriley.isValidEmail
 import dev.jriley.landing.MainActivity
 import dev.jriley.visible
@@ -84,7 +84,6 @@ class SignInActivity : AppCompatActivity() {
         startActivity(Intent(this, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
         })
-        finish()
-        enterRightExitLeft()
+        finishAndExitWithAnimation()
     }
 }
