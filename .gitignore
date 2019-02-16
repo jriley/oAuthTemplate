@@ -41,6 +41,10 @@ proguard/
 # Android Studio captures folder
 captures/
 
+# Local configuration file (sdk path, etc)
+local.properties
+/sys.properties
+
 # IntelliJ
 *.iml
 .idea/workspace.xml

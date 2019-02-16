@@ -7,4 +7,6 @@ class SignInViewModel(private val tokenRepo: TokenRepo = TokenRepositoryFactory.
     fun loginAttempt(loginCredentials: LoginCredentials): Completable = tokenRepo.logInAttempt(loginCredentials)
 }
 
-data class LoginCredentials(val userName: String, val password: String)
+data class LoginCredentials(val userName: String, val password: String){
+    companion object
+}

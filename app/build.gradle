@@ -4,6 +4,11 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+Properties properties = new Properties()
+properties.load(project.rootProject.file('sys.properties').newDataInputStream())
+final clientId = properties.getProperty('client.id', "\"NOT_YET_IMPLEMENTED\"")
+final clientSecret = properties.getProperty('client.secret', "\"NOT_YET_IMPLEMENTED\"")
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -13,6 +18,9 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        buildConfigField "String", "BASE_URL", "\"https://api.gfycat.com/v1/\""
+        buildConfigField "String", "CLIENT_ID", clientId
+        buildConfigField "String", "CLIENT_SECRET", clientSecret
     }
     buildTypes {
         debug {
@@ -21,6 +29,18 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        debug.java.srcDirs += 'src/main/kotlin'
+        release.java.srcDirs += 'src/main/kotlin'
+
+        String sharedTestDir = 'src/sharedTest/kotlin'
+        test{
+            java.srcDir sharedTestDir
+            assets.srcDirs += files("$projectDir/schemas".toString())
         }
     }
 }
@@ -41,8 +61,10 @@ dependencies {
     implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
 
     implementation "com.squareup.moshi:moshi-kotlin:1.8.0"
+    implementation 'com.squareup.retrofit2:converter-moshi:2.5.0'
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     implementation "com.squareup.okhttp3:okhttp:${okhttp_version}"
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.12.1'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
 
     implementation 'com.jakewharton.timber:timber:4.7.0'

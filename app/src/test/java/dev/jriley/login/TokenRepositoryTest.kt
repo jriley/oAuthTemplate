@@ -1,15 +1,13 @@
 package dev.jriley.login
 
 import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
-import dev.jriley.login.AuthTokenApi.Companion.CLIENT_ID
-import dev.jriley.login.AuthTokenApi.Companion.CLIENT_SECRET
 import io.reactivex.Single
 import io.reactivex.schedulers.TestScheduler
 import org.junit.Before
 import org.junit.Test
+import randomPositiveLong
 import java.util.*
 
 class TokenRepositoryTest {
@@ -29,7 +27,7 @@ class TokenRepositoryTest {
         val nextInt = random.nextInt(100)
         val expectedValue = nextInt % 2 == 0
         val credentials = LoginCredentials("user-$nextInt", "pw-$nextInt")
-        whenever(authTokenApi.login(credentials.userName, credentials.password)).thenReturn(Single.just(AuthToken("$expectedValue", "refresh-$expectedValue")))
+        whenever(authTokenApi.login(AuthTokenRequest(credentials.userName, credentials.password))).thenReturn(Single.just(AuthTokenResponse("tokenType=$expectedValue", randomPositiveLong(), "refreshToken-$expectedValue", "scope-$expectedValue", "resourceOwner-$expectedValue", randomPositiveLong(), "accessToken-$expectedValue")))
 
         testObject.logInAttempt(credentials).test().apply {
             assertNoValues()
@@ -46,7 +44,7 @@ class TokenRepositoryTest {
     @Test
     fun failedLogin() {
         val invalidGrantException = InvalidGrantException()
-        whenever(authTokenApi.login(any(), any(), eq("password"), eq(CLIENT_ID), eq(CLIENT_SECRET))).thenReturn(Single.error(invalidGrantException))
+        whenever(authTokenApi.login(any())).thenReturn(Single.error(invalidGrantException))
 
         testObject.logInAttempt(LoginCredentials("foo", "bar")).test().apply {
             assertNoValues()

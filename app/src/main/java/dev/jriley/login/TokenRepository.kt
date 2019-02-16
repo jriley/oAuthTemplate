@@ -1,22 +1,25 @@
 package dev.jriley.login
 
 import android.support.annotation.Keep
+import com.squareup.moshi.Json
+import dev.jriley.login.AuthTokenApi.Companion.CLIENT_ID
+import dev.jriley.login.AuthTokenApi.Companion.CLIENT_SECRET
 import io.reactivex.Completable
 import io.reactivex.Scheduler
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
+import retrofit2.http.Body
 import retrofit2.http.POST
 
 class TokenRepository(
-    private val authTokenApi: AuthTokenApi = AuthTokenApiFactory.tokenApi,
-    private val ioScheduler: Scheduler = Schedulers.io()) : TokenRepo {
+    private val authTokenApi: AuthTokenApi = AuthTokenApiFactory.authTokenApi,
+    private val ioScheduler: Scheduler = Schedulers.io()
+) : TokenRepo {
 
     override fun isValid(): Single<Boolean> = Single.just(false)
 
     override fun logInAttempt(loginCredentials: LoginCredentials): Completable =
-        authTokenApi.login(loginCredentials.userName, loginCredentials.password)
+        authTokenApi.login(AuthTokenRequest(loginCredentials.userName, loginCredentials.password))
             .subscribeOn(ioScheduler)
             .flatMapCompletable { Completable.complete() }
 }
@@ -27,35 +30,56 @@ interface TokenRepo {
 }
 
 
-object AuthTokenApiFactory {
-    val tokenApi: AuthTokenApi  by lazy {
-        object : AuthTokenApi {
-            override fun login(userName: String, password: String, grantType: String, clientId: String, clientSecret: String): Single<AuthToken> = when {
-                userName == "joe@example.com" && password == "foobarbaz" -> Single.just(AuthToken("token-123456", "refresh-123456"))
-                else -> Single.error { InvalidGrantException() }
-            }
-        }
-    }
-}
+//object AuthTokenApiFactory {
+//    val tokenApi: AuthTokenApi  by lazy {
+//        object : AuthTokenApi {
+//            override fun login(authRequest: AuthTokenRequest): Single<AuthTokenResponse> = when {
+//                authRequest.username == "joe@example.com" && authRequest.password == "foobarbaz" -> Single.just(
+//                    AuthTokenResponse("type", 1, "refresh-123456", "sope", authRequest.username, 2, "token-123456")
+//                )
+//                else -> Single.error { InvalidGrantException() }
+//            }
+//        }
+//    }
+//}
 
 interface AuthTokenApi {
 
-    @FormUrlEncoded
-    @POST("tokens")
-    fun login(
-        @Field("userName") userName: String,
-        @Field("password") password: String,
-        @Field("grantType") grantType: String = "password",
-        @Field("clientId") clientId: String = CLIENT_ID,
-        @Field("clientSecret") clientSecret: String = CLIENT_SECRET
-    ): Single<AuthToken>
+    @POST("oauth/token")
+    fun login(@Body authRequest: AuthTokenRequest): Single<AuthTokenResponse>
 
     companion object {
-        // TODO these are samples this should be replaced with real values
-        const val CLIENT_ID =  "57da70f0-ff86-4571-a152-9ce0302314e2"
-        const val CLIENT_SECRET = "GcdFE5nScShTa2tgBevJpdGsMOyU9ltHOnjJeyFhKbK4xySUp4cdvnl8n_rnDWSHZDKF0JDoO622If76iLnFBQ"
+        const val CLIENT_ID = BuildConfig.CLIENT_ID
+        const val CLIENT_SECRET = BuildConfig.CLIENT_SECRET
     }
 }
 
 @Keep
 data class AuthToken(val accessToken: String, val refreshToken: String)
+
+data class AuthTokenRequest(
+    val username: String,
+    val password: String,
+    @field:Json(name = "grant_type") val grantType: String = "password",
+    @field:Json(name = "client_id") val clientId: String = CLIENT_ID,
+    @field:Json(name = "client_secret") val clientSecret: String = CLIENT_SECRET
+)
+
+data class ReAuthTokenRequest(
+    @field:Json(name = "refresh_token") val refreshToken: String,
+    @field:Json(name = "grant_type") val grantType: String = "refresh",
+    @field:Json(name = "client_id") val clientId: String = CLIENT_ID,
+    @field:Json(name = "client_secret") val clientSecret: String = CLIENT_SECRET
+)
+
+data class AuthTokenResponse(
+    @field:Json(name = "token_type") val tokenType: String,
+    @field:Json(name = "refresh_token_expires_in") val refreshTokenExpiresIn: Long,
+    @field:Json(name = "refresh_token") val refreshToken: String,
+    val scope: String,
+    @field:Json(name = "resource_owner") val resourceOwner: String,
+    @field:Json(name = "expires_in") val expiresIn: Long,
+    @field:Json(name = "access_token") val accessToken: String
+) {
+    companion object
+}
