@@ -4,8 +4,8 @@ import android.support.test.rule.ActivityTestRule
 import dev.jriley.landing.MainScreen
 import dev.jriley.login.LoginCredentials
 import dev.jriley.login.SignInScreen
-import dev.jriley.login.TokenRepo
-import dev.jriley.login.TokenRepositoryFactory
+import dev.jriley.auth.TokenRepo
+import dev.jriley.auth.TokenRepositoryFactory
 import io.reactivex.Completable
 import io.reactivex.Single
 import org.junit.Rule

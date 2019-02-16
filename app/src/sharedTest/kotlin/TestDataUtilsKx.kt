@@ -1,4 +1,4 @@
-import dev.jriley.login.AuthTokenResponse
+import dev.jriley.auth.AuthTokenResponse
 import dev.jriley.login.LoginCredentials
 import kotlin.random.Random
 
@@ -25,15 +25,15 @@ fun AuthTokenResponse.Companion.test(
     expiresIn: Long = randomPositiveLong(),
     accessToken: String = "access_token-$expectedId"
 ): AuthTokenResponse =
-        AuthTokenResponse(
-            tokenType,
-            refreshTokenExpiresIn,
-            refreshToken,
-            scope,
-            resourceOwner,
-            expiresIn,
-            accessToken
-        )
+    AuthTokenResponse(
+        tokenType,
+        refreshTokenExpiresIn,
+        refreshToken,
+        scope,
+        resourceOwner,
+        expiresIn,
+        accessToken
+    )
 
 fun LoginCredentials.Companion.test(
     expectedId: Int = randomPositiveInt(),

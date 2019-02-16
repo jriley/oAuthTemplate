@@ -2,7 +2,7 @@ package dev.jriley.splash
 
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
-import dev.jriley.login.TokenRepository
+import dev.jriley.auth.TokenRepository
 import io.reactivex.Single
 import io.reactivex.schedulers.TestScheduler
 import org.junit.Test

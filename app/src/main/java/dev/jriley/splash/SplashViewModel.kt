@@ -1,8 +1,8 @@
 package dev.jriley.splash
 
 import android.arch.lifecycle.ViewModel
-import dev.jriley.login.TokenRepo
-import dev.jriley.login.TokenRepositoryFactory
+import dev.jriley.auth.TokenRepo
+import dev.jriley.auth.TokenRepositoryFactory
 import io.reactivex.Observable
 import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable

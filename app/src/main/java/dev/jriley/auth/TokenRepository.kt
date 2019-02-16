@@ -1,9 +1,11 @@
-package dev.jriley.login
+package dev.jriley.auth
 
 import android.support.annotation.Keep
 import com.squareup.moshi.Json
-import dev.jriley.login.AuthTokenApi.Companion.CLIENT_ID
-import dev.jriley.login.AuthTokenApi.Companion.CLIENT_SECRET
+import dev.jriley.auth.AuthTokenApi.Companion.CLIENT_ID
+import dev.jriley.auth.AuthTokenApi.Companion.CLIENT_SECRET
+import dev.jriley.login.BuildConfig
+import dev.jriley.login.LoginCredentials
 import io.reactivex.Completable
 import io.reactivex.Scheduler
 import io.reactivex.Single

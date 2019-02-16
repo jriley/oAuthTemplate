@@ -7,6 +7,7 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
+import dev.jriley.auth.InvalidGrantException
 import dev.jriley.finishAndExitWithAnimation
 import dev.jriley.isValidEmail
 import dev.jriley.landing.MainActivity
