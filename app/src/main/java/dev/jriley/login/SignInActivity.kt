@@ -8,14 +8,17 @@ import android.support.v7.app.AppCompatActivity
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import dev.jriley.finishAndExitWithAnimation
+import dev.jriley.isValidEmail
 import dev.jriley.landing.MainActivity
 import dev.jriley.visible
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import timber.log.Timber
 
 class SignInActivity : AppCompatActivity() {
     private lateinit var viewModel: SignInViewModel
+    private val compositeDisposable : CompositeDisposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,28 +50,34 @@ class SignInActivity : AppCompatActivity() {
         when {
             userName.text.toString().isBlank() -> userNameLayout.error = getString(R.string.error_empty_field)
             password.text.toString().isBlank() -> passwordLayout.error = getString(R.string.error_empty_field)
-            else -> {
-                viewModel.loginAttempt(LoginCredentials(userName.text.toString(), password.text.toString()))
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .doOnSubscribe { viewComponentsState() }
-                    .doFinally { viewComponentsState(true) }
-                    .subscribe({ startMain() }) { error ->
-                        when (error) {
-                            is InvalidGrantException -> {
-                                AlertDialog.Builder(this)
-                                    .setTitle(getString(R.string.failed_login_title))
-                                    .setMessage(getString(R.string.failed_login))
-                                    .setPositiveButton(getString(android.R.string.ok)) { dialog, _ -> dialog.dismiss() }
-                                    .show()
-                            }
-                            else -> {
-                                Timber.e(error, "Problem logging in")
-                                Toast.makeText(this, getString(R.string.failed_login), Toast.LENGTH_SHORT).show()
-                            }
-                        }
-                    }
-            }
+            BuildConfig.IS_USER_EMAIL && userName.text.toString().isValidEmail().not() -> userNameLayout.error = getString(R.string.error_invalid_email)
+            else -> loginWithServer()
         }
+    }
+
+    private fun loginWithServer() {
+        compositeDisposable.add(viewModel.loginAttempt(LoginCredentials(userName.text.toString(), password.text.toString()))
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { viewComponentsState() }
+            .doFinally {
+                viewComponentsState(true)
+                compositeDisposable.clear()
+            }
+            .subscribe({ startMain() }) { error ->
+                when (error) {
+                    is InvalidGrantException -> {
+                        AlertDialog.Builder(this)
+                            .setTitle(getString(R.string.failed_login_title))
+                            .setMessage(getString(R.string.failed_login))
+                            .setPositiveButton(getString(android.R.string.ok)) { dialog, _ -> dialog.dismiss() }
+                            .show()
+                    }
+                    else -> {
+                        Timber.e(error, "Problem logging in")
+                        Toast.makeText(this, getString(R.string.failed_login), Toast.LENGTH_SHORT).show()
+                    }
+                }
+            })
     }
 
     private fun viewComponentsState(enabled: Boolean = false) {

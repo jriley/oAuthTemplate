@@ -1,10 +1,13 @@
 package dev.jriley.login
 
+import android.os.Build
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import dev.jriley.landing.MainScreen
 import io.reactivex.Completable
+import io.reactivex.CompletableEmitter
 import io.reactivex.Single
+import org.junit.Assume.assumeTrue
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -50,10 +53,29 @@ class SignInUat {
     }
 
     @Test
+    fun invalidUserNameError() {
+        assumeTrue("The username is expected to be an email.", BuildConfig.IS_USER_EMAIL)
+        activityRule.launchActivity(null)
+
+        SignInScreen.assertShowing()
+
+        SignInScreen.enterUserName("foo")
+
+        SignInScreen.enterPassword("bar")
+
+        SignInScreen.clickSignIn()
+
+        SignInScreen.assertUserNameError(activityRule.activity.getString(R.string.error_invalid_email))
+    }
+
+    @Test
     fun successfulLogin() {
+        assumeTrue("Please only run on [Build.VERSION_CODES.N] ot higher.", Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+        lateinit var completableEmitter: CompletableEmitter
         TokenRepositoryFactory.tokenRepository = object : TokenRepo {
             override fun isValid(): Single<Boolean> = Single.just(false)
-            override fun logInAttempt(loginCredentials: LoginCredentials): Completable = Completable.complete()
+            override fun logInAttempt(loginCredentials: LoginCredentials): Completable =
+                Completable.create { emitter -> completableEmitter = emitter }
         }
         activityRule.launchActivity(null)
 
@@ -64,16 +86,20 @@ class SignInUat {
         SignInScreen.enterPassword("bar")
 
         SignInScreen.clickSignIn()
+
+        completableEmitter.onComplete()
 
         MainScreen.assertShowing()
     }
 
     @Test
     fun failedLogin() {
+        assumeTrue("Please only run on [Build.VERSION_CODES.N] ot higher.", Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+        lateinit var completableEmitter: CompletableEmitter
         TokenRepositoryFactory.tokenRepository = object : TokenRepo {
             override fun isValid(): Single<Boolean> = Single.just(false)
             override fun logInAttempt(loginCredentials: LoginCredentials): Completable =
-                Completable.error(InvalidGrantException())
+                Completable.create { emitter -> completableEmitter = emitter }
         }
         activityRule.launchActivity(null)
 
@@ -84,6 +110,8 @@ class SignInUat {
         SignInScreen.enterPassword("bar")
 
         SignInScreen.clickSignIn()
+
+        completableEmitter.onError(InvalidGrantException())
 
         activityRule.activity.apply {
             SignInScreen.assertAlertDialog(

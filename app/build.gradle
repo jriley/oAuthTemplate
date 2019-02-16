@@ -25,10 +25,13 @@ android {
     buildTypes {
         debug {
             minifyEnabled false
+            buildConfigField "Boolean", "IS_USER_EMAIL", "false"
         }
+
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "Boolean", "IS_USER_EMAIL", "true"
         }
     }
 
