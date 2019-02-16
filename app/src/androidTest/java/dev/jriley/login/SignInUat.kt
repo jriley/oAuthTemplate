@@ -37,21 +37,6 @@ class SignInUat {
     }
 
     @Test
-    fun invalidUserNameError() {
-        activityRule.launchActivity(null)
-
-        SignInScreen.assertShowing()
-
-        SignInScreen.enterUserName("foo")
-
-        SignInScreen.enterPassword("bar")
-
-        SignInScreen.clickSignIn()
-
-        SignInScreen.assertUserNameError(activityRule.activity.getString(R.string.error_invalid_email))
-    }
-
-    @Test
     fun emptyPassword() {
         activityRule.launchActivity(null)
 
