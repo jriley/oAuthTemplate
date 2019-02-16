@@ -32,7 +32,7 @@
                     tools:visibility="visible"/>
 
             <android.support.v7.widget.AppCompatImageView
-                    android:id="@+id/image_holder"
+                    android:id="@+id/imageHolder"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     app:layout_constraintHeight_percent=".3"
@@ -49,7 +49,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="@id/left_guide"
                     app:layout_constraintEnd_toEndOf="@id/right_guide"
-                    app:layout_constraintTop_toBottomOf="@id/image_holder"
+                    app:layout_constraintTop_toBottomOf="@id/imageHolder"
             >
 
                 <android.support.design.widget.TextInputEditText
@@ -84,7 +84,7 @@
 
             <android.support.v7.widget.AppCompatButton
                     android:id="@+id/loginBtn"
-                    style="@style/Button.Flat"
+                    style="@style/Button.Flat.Colored"
                     android:layout_width="0dp"
                     app:layout_constraintCircleRadius="10dp"
                     android:layout_height="wrap_content"
@@ -108,12 +108,11 @@
                     android:orientation="vertical"
                     app:layout_constraintGuide_end="16dp"/>
 
-            <android.support.constraint.Group
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/loginGrp"
-                    app:constraint_referenced_ids="loginBtn, passwordLayout, userNameLayout, image_holder"/>
-
+            <!--<android.support.constraint.Group-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:id="@+id/loginGrp"-->
+                    <!--app:constraint_referenced_ids="loginBtn, passwordLayout, userNameLayout, imageHolder"/>-->
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 </android.support.design.widget.CoordinatorLayout>

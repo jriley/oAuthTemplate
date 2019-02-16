@@ -29,20 +29,6 @@ interface TokenRepo {
     fun logInAttempt(loginCredentials: LoginCredentials): Completable
 }
 
-
-//object AuthTokenApiFactory {
-//    val tokenApi: AuthTokenApi  by lazy {
-//        object : AuthTokenApi {
-//            override fun login(authRequest: AuthTokenRequest): Single<AuthTokenResponse> = when {
-//                authRequest.username == "joe@example.com" && authRequest.password == "foobarbaz" -> Single.just(
-//                    AuthTokenResponse("type", 1, "refresh-123456", "sope", authRequest.username, 2, "token-123456")
-//                )
-//                else -> Single.error { InvalidGrantException() }
-//            }
-//        }
-//    }
-//}
-
 interface AuthTokenApi {
 
     @POST("oauth/token")

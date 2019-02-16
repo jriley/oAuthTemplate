@@ -18,7 +18,7 @@ import timber.log.Timber
 
 class SignInActivity : AppCompatActivity() {
     private lateinit var viewModel: SignInViewModel
-    private val compositeDisposable : CompositeDisposable = CompositeDisposable()
+    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,7 +82,10 @@ class SignInActivity : AppCompatActivity() {
 
     private fun viewComponentsState(enabled: Boolean = false) {
         progressBar.visible(!enabled)
-        loginGrp.isEnabled = enabled
+        loginBtn.isEnabled = enabled
+        passwordLayout.isEnabled = enabled
+        userNameLayout.isEnabled = enabled
+        imageHolder.isEnabled = enabled
     }
 
     private fun startMain() {
