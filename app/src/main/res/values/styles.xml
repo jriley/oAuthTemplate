@@ -33,10 +33,10 @@
         <item name="android:focusable">true</item>
         <item name="android:clickable">true</item>
         <item name="android:stateListAnimator">@null</item>
-        <item name="android:background">@color/colorAccent</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/textWhite</item>
         <item name="android:elevation">0dp</item>
+        <item name="android:background">@color/colorAccent</item>
         <item name="android:foreground">?android:attr/selectableItemBackgroundBorderless</item>
     </style>
 

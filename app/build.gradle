@@ -41,7 +41,7 @@ dependencies {
     implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
 
     implementation "com.squareup.moshi:moshi-kotlin:1.8.0"
-    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     implementation "com.squareup.okhttp3:okhttp:${okhttp_version}"
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
 

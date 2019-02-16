@@ -15,15 +15,11 @@ fun Activity.finishAndExitWithAnimation() {
     enterRightExitLeft()
 }
 
-fun ViewGroup.inflate(layoutId: Int) : View = LayoutInflater.from(this.context).inflate(layoutId, this, false)
+fun ViewGroup.inflate(layoutId: Int): View = LayoutInflater.from(this.context).inflate(layoutId, this, false)
 
-fun View.visible() {
-    this.visibility = View.VISIBLE
-}
+fun View.visible() { this.visibility = View.VISIBLE }
 
-fun View.gone() {
-    this.visibility = View.GONE
-}
+fun View.gone() { this.visibility = View.GONE }
 
 fun View.visible(isVisible: Boolean) = if (isVisible) this.visible() else this.gone()
 

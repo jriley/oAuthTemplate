@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import dev.jriley.finishAndExitWithAnimation
-import dev.jriley.isValidEmail
 import dev.jriley.landing.MainActivity
 import dev.jriley.visible
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -48,7 +47,7 @@ class SignInActivity : AppCompatActivity() {
         when {
             userName.text.toString().isBlank() -> userNameLayout.error = getString(R.string.error_empty_field)
             password.text.toString().isBlank() -> passwordLayout.error = getString(R.string.error_empty_field)
-            userName.text.toString().isValidEmail() -> {
+            else -> {
                 viewModel.loginAttempt(LoginCredentials(userName.text.toString(), password.text.toString()))
                     .observeOn(AndroidSchedulers.mainThread())
                     .doOnSubscribe { viewComponentsState() }
@@ -69,15 +68,12 @@ class SignInActivity : AppCompatActivity() {
                         }
                     }
             }
-            else -> userNameLayout.error = getString(R.string.error_invalid_email)
         }
     }
 
     private fun viewComponentsState(enabled: Boolean = false) {
         progressBar.visible(!enabled)
-        loginBtn.isEnabled = enabled
-        userNameLayout.isEnabled = enabled
-        passwordLayout.isEnabled = enabled
+        loginGrp.isEnabled = enabled
     }
 
     private fun startMain() {

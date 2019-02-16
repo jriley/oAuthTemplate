@@ -18,7 +18,7 @@ class TokenRepository(
     override fun logInAttempt(loginCredentials: LoginCredentials): Completable =
         authTokenApi.login(loginCredentials.userName, loginCredentials.password)
             .subscribeOn(ioScheduler)
-            .flatMapCompletable { _ -> Completable.complete() }
+            .flatMapCompletable { Completable.complete() }
 }
 
 interface TokenRepo {
@@ -51,7 +51,8 @@ interface AuthTokenApi {
     ): Single<AuthToken>
 
     companion object {
-        const val CLIENT_ID = "57da70f0-ff86-4571-a152-9ce0302314e2"
+        // TODO these are samples this should be replaced with real values
+        const val CLIENT_ID =  "57da70f0-ff86-4571-a152-9ce0302314e2"
         const val CLIENT_SECRET = "GcdFE5nScShTa2tgBevJpdGsMOyU9ltHOnjJeyFhKbK4xySUp4cdvnl8n_rnDWSHZDKF0JDoO622If76iLnFBQ"
     }
 }
