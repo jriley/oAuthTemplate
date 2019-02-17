@@ -1,4 +1,5 @@
 import dev.jriley.auth.AuthTokenResponse
+import dev.jriley.auth.Token
 import dev.jriley.login.LoginCredentials
 import kotlin.random.Random
 
@@ -7,13 +8,13 @@ private const val REASONABLE_BOUND = 100
 fun randomPositiveInt(): Int = Random.nextInt(0, REASONABLE_BOUND)
 fun randomPositiveLong(): Long = Random.nextLong(0, Long.MAX_VALUE)
 
-//fun Token.Companion.test(
-//    expectedId: Int = randomPositiveInt(),
-//    accessToken: String = "access_token-$expectedId",
-//    username: String = "username-$expectedId",
-//    refreshToken: String = "refresh_token-$expectedId",
-//    scope: String = "scope-$expectedId"
-//): Token = Token(accessToken, username, refreshToken, scope)
+fun Token.Companion.test(
+    expectedId: Int = randomPositiveInt(),
+    accessToken: String = "access_token-$expectedId",
+    username: String = "username-$expectedId",
+    refreshToken: String = "refresh_token-$expectedId",
+    scope: String = "scope-$expectedId"
+): Token = Token(accessToken, username, refreshToken, scope)
 
 fun AuthTokenResponse.Companion.test(
     expectedId: Int = randomPositiveInt(),
@@ -40,5 +41,3 @@ fun LoginCredentials.Companion.test(
     username: String = "username-$expectedId",
     password: String = "password-$expectedId"
 ): LoginCredentials = LoginCredentials(username, password)
-
-fun invalidUsernamePasswordCharacters() :List<Char> = listOf('[', ']', '*', 32.toChar(), '&', 96.toChar(), '(', ')', '<', '>', 39.toChar(), 96.toChar(), ';', '.')

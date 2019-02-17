@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 Properties properties = new Properties()
 properties.load(project.rootProject.file('sys.properties').newDataInputStream())
 final clientId = properties.getProperty('client.id', "\"NOT_YET_IMPLEMENTED\"")
@@ -46,6 +48,10 @@ android {
         String sharedTestDir = 'src/sharedTest/kotlin'
         test{
             java.srcDir sharedTestDir
+            assets.srcDirs += files("$projectDir/schemas".toString())
+        }
+        androidTest {
+            java.srcDirs sharedTestDir
             assets.srcDirs += files("$projectDir/schemas".toString())
         }
     }
