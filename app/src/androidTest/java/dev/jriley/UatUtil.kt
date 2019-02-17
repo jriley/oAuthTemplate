@@ -1,10 +1,7 @@
 package dev.jriley
 
-import android.support.test.espresso.Espresso
+import android.support.test.espresso.*
 import android.support.test.espresso.Espresso.onView
-import android.support.test.espresso.PerformException
-import android.support.test.espresso.UiController
-import android.support.test.espresso.ViewAction
 import android.support.test.espresso.action.ViewActions
 import android.support.test.espresso.assertion.ViewAssertions
 import android.support.test.espresso.assertion.ViewAssertions.matches
@@ -25,9 +22,7 @@ fun assertTextVisible(viewId: Int, textRefId: Int) {
         .check(ViewAssertions.matches(Matchers.allOf(ViewMatchers.isDisplayed(), ViewMatchers.withText(textRefId))))
 }
 
-fun assertViewVisibleEnabled(viewId: Int){
-    onView(withId(viewId)).check(matches(allOf(isDisplayed(), isEnabled())))
-}
+fun assertViewVisibleEnabled(viewId: Int): ViewInteraction = onView(withId(viewId)).check(matches(allOf(isDisplayed(), isEnabled())))
 
 fun assertTextInputLayoutError(textInputLayoutId: Int, expectedError: String?){
     onView(withId(textInputLayoutId)).check(matches(hasTextInputLayoutErrorText(expectedError)))

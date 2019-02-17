@@ -19,10 +19,7 @@ object SignInScreen {
         assertViewVisibleEnabled(R.id.password)
     }
 
-    fun clickSignIn() {
-        assertViewVisibleEnabled(R.id.loginBtn)
-        onView(withId(R.id.loginBtn)).perform(click())
-    }
+    fun clickSignIn() :ViewInteraction = assertViewVisibleEnabled(R.id.loginBtn).perform(click())
 
     fun assertUserNameError(errorMessage: String?) = assertTextInputLayoutError(R.id.userNameLayout, errorMessage)
     fun assertUserNameHint(hint: String?) = assertTextInputLayoutHint(R.id.userNameLayout, hint)

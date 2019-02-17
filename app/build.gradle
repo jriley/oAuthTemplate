@@ -46,6 +46,10 @@ android {
             assets.srcDirs += files("$projectDir/schemas".toString())
         }
     }
+
+    testOptions {
+        animationsDisabled = true
+    }
 }
 
 final mockito_version = "2.13.0"
