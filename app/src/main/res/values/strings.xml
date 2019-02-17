@@ -13,7 +13,6 @@
     <string name="password">Password</string>
     <string name="email_or_user_name">Email or user name</string>
     <string name="sign_in">Sign in</string>
-    <string name="title_activity_splash">SplashActivity</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="splash_loading">Loading</string>
     <string name="error_empty_field">This field is required to continue.</string>
