@@ -1,3 +1,4 @@
+import dev.jriley.auth.AuthTokenRequest
 import dev.jriley.auth.AuthTokenResponse
 import dev.jriley.auth.Token
 import dev.jriley.login.LoginCredentials
@@ -15,6 +16,16 @@ fun Token.Companion.test(
     refreshToken: String = "refresh_token-$expectedId",
     scope: String = "scope-$expectedId"
 ): Token = Token(accessToken, username, refreshToken, scope)
+
+fun AuthTokenRequest.Companion.test(
+    expectedId: Int = randomPositiveInt(),
+    username: String = "username-$expectedId",
+    password: String = "password-$expectedId",
+    grantType: String = "grantType-$expectedId",
+    clientId: String = "clientId-$expectedId",
+    clientSecret: String = "clientSecret-$expectedId"
+): AuthTokenRequest =
+    AuthTokenRequest(username, password, grantType, clientId, clientSecret)
 
 fun AuthTokenResponse.Companion.test(
     expectedId: Int = randomPositiveInt(),

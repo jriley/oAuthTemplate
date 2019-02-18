@@ -15,15 +15,19 @@ import retrofit2.http.POST
 
 class TokenRepository(
     private val authTokenApi: AuthTokenApi = AuthTokenApiFactory.authTokenApi,
+    private val authTokenData: AuthTokenData = AuthTokenDataFactory.authTokenData,
     private val ioScheduler: Scheduler = Schedulers.io()
 ) : TokenRepo {
 
-    override fun isValid(): Single<Boolean> = Single.just(false)
+    override fun isValid(): Single<Boolean> = authTokenData.currentToken()
+        .flatMapSingle { ds -> Single.just(ds.accessToken.isNotBlank()) }
+        .onErrorReturn { false }
+        .subscribeOn(ioScheduler)
 
     override fun logInAttempt(loginCredentials: LoginCredentials): Completable =
         authTokenApi.login(AuthTokenRequest(loginCredentials.userName, loginCredentials.password))
+            .flatMapCompletable { atr -> authTokenData.insert(Token(atr = atr)) }
             .subscribeOn(ioScheduler)
-            .flatMapCompletable { Completable.complete() }
 }
 
 interface TokenRepo {
@@ -51,7 +55,9 @@ data class AuthTokenRequest(
     @field:Json(name = "grant_type") val grantType: String = "password",
     @field:Json(name = "client_id") val clientId: String = CLIENT_ID,
     @field:Json(name = "client_secret") val clientSecret: String = CLIENT_SECRET
-)
+) {
+    companion object
+}
 
 data class ReAuthTokenRequest(
     @field:Json(name = "refresh_token") val refreshToken: String,

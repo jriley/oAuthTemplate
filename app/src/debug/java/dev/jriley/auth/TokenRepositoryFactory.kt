@@ -11,6 +11,10 @@ object TokenRepositoryFactory {
     var tokenRepository: TokenRepo = TokenRepository()
 }
 
+object AuthTokenDataFactory {
+    var authTokenData: AuthTokenData = DatabaseProvider.tokenDatabase.tokenEntityDao()
+}
+
 object AuthTokenApiFactory {
     private val OK_HTTP_INSTANCE: OkHttpClient =
         OkHttpClient.Builder()
