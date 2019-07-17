@@ -1,6 +1,6 @@
 package dev.jriley.login
 
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
 import dev.jriley.auth.TokenRepo
 import dev.jriley.auth.TokenRepositoryFactory
 import io.reactivex.Completable

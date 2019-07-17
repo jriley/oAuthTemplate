@@ -1,12 +1,12 @@
 package dev.jriley.login
 
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
 import dev.jriley.auth.InvalidGrantException
 import dev.jriley.finishAndExitWithAnimation
 import dev.jriley.isValidEmail

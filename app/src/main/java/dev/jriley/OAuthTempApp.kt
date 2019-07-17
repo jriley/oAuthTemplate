@@ -1,7 +1,7 @@
 package dev.jriley
 
 import android.app.Application
-import android.arch.persistence.room.Room
+import androidx.room.Room
 import dev.jriley.auth.DatabaseProvider
 import dev.jriley.auth.TokenDatabase
 import timber.log.Timber

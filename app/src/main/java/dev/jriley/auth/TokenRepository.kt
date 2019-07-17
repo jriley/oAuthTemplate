@@ -1,6 +1,6 @@
 package dev.jriley.auth
 
-import android.support.annotation.Keep
+import androidx.annotation.Keep
 import com.squareup.moshi.Json
 import dev.jriley.auth.AuthTokenApi.Companion.CLIENT_ID
 import dev.jriley.auth.AuthTokenApi.Companion.CLIENT_SECRET
@@ -17,6 +17,7 @@ class TokenRepository(
     private val authTokenApi: AuthTokenApi = AuthTokenApiFactory.authTokenApi,
     private val authTokenData: AuthTokenData = AuthTokenDataFactory.authTokenData,
     private val ioScheduler: Scheduler = Schedulers.io()
+
 ) : TokenRepo {
 
     override fun isValid(): Single<Boolean> = authTokenData.currentToken()
@@ -24,10 +25,12 @@ class TokenRepository(
         .onErrorReturn { false }
         .subscribeOn(ioScheduler)
 
-    override fun logInAttempt(loginCredentials: LoginCredentials): Completable =
-        authTokenApi.login(AuthTokenRequest(loginCredentials.userName, loginCredentials.password))
+    override fun logInAttempt(loginCredentials: LoginCredentials): Completable {
+        return authTokenApi.login(AuthTokenRequest(loginCredentials.userName, loginCredentials.password))
             .flatMapCompletable { atr -> authTokenData.insert(Token(atr = atr)) }
             .subscribeOn(ioScheduler)
+    }
+
 }
 
 interface TokenRepo {

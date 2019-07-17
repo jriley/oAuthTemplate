@@ -1,6 +1,6 @@
 package dev.jriley.auth
 
-import android.arch.persistence.room.*
+import androidx.room.*
 import io.reactivex.Completable
 import io.reactivex.Maybe
 import io.reactivex.Single
@@ -11,7 +11,7 @@ object DatabaseProvider {
     lateinit var tokenDatabase: TokenDatabase
 }
 
-@Database(entities = [Token::class], version = 1)
+@Database(entities = [Token::class], version = 1,  exportSchema = false)
 abstract class TokenDatabase : RoomDatabase() {
     abstract fun tokenEntityDao(): TokenDao
 }

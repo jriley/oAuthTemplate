@@ -1,9 +1,9 @@
 package dev.jriley.splash
 
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
 import dev.jriley.finishAndExitWithAnimation
 import dev.jriley.landing.MainActivity
 import dev.jriley.login.R
